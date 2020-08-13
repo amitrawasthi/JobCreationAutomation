@@ -1,0 +1,68 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Code for second Demo</description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@4.3.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>https://github.com/amitrawasthi/LondonSampleCode.git</url>
+        <credentialsId>4bccb352-c2d4-4ce8-92c7-920b54f04656</credentialsId>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <hudson.triggers.SCMTrigger>
+      <spec>H/2 * * * *</spec>
+      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>echo Build started on `date`
+echo Compiling the Python code...
+python3 test_app.py
+
+echo Build completed on `date`</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <com.amazonaws.codedeploy.AWSCodeDeployPublisher plugin="codedeploy@1.23">
+      <s3bucket>demo2codebucket</s3bucket>
+      <s3prefix></s3prefix>
+      <applicationName>Demo2CodeDeployApp</applicationName>
+      <deploymentGroupName>Demo2CodeDeployAppGroup</deploymentGroupName>
+      <deploymentConfig>CodeDeployDefault.OneAtATime</deploymentConfig>
+      <deploymentGroupAppspec>false</deploymentGroupAppspec>
+      <waitForCompletion>false</waitForCompletion>
+      <iamRoleArn></iamRoleArn>
+      <region>eu-west-2</region>
+      <includes>**</includes>
+      <excludes></excludes>
+      <subdirectory></subdirectory>
+      <proxyHost></proxyHost>
+      <proxyPort>0</proxyPort>
+      <awsAccessKey>AKIAUAR7BHQZRTH7G2OS</awsAccessKey>
+      <awsSecretKey>{AQAAABAAAAAwPUlDtR/F7FFYfus2Kq+6jfbuOSuLKT6VYBs4zvLEGVV8pJngOUgnjOmtxcVnjQwcdbNLKxzMnq0m4VGbdwSMyA==}</awsSecretKey>
+      <credentials>awsAccessKey</credentials>
+      <versionFileName></versionFileName>
+    </com.amazonaws.codedeploy.AWSCodeDeployPublisher>
+  </publishers>
+  <buildWrappers/>
+</project>
